@@ -160,7 +160,8 @@ async function ambilVoucher(pelangganId) {
     pel.passwordDiambil = pel.passwordKhusus;
     pel.lastAmbil = now.toISOString();
     pel.utang += HARGA_VOUCHER;
-    saveData();
+totalModalBalik += 3000;
+saveData();
     
     const pesanTele = `🔔 ${pel.nama} ambil voucher ${pel.passwordKhusus}\n📅 ${waktuAmbil}\n💰 Utang: Rp${HARGA_VOUCHER.toLocaleString()}`;
     const pesanWA = `🔔 ${pel.nama} ambil voucher ${pel.passwordKhusus} jam ${now.toLocaleTimeString('id-ID')}. Utang: Rp${HARGA_VOUCHER.toLocaleString()}`;

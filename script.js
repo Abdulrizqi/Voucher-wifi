@@ -1,14 +1,16 @@
 // ========== KONSTANTA ==========
 const PIN_OWNER = "2206";
-const HARGA_VOUCHER = 4000;
+const HARGA_BELI = 3000;
+const HARGA_JUAL = 4000;
+const LABA = 1000;
 const BOT_TOKEN = "8889807183:AAGpcbwHkAfA0CWV1DJuDD63C3wZZOTKAlo";
 const CHAT_ID = "8372840811";
-const NOMOR_WA = "6283877746422"; // NOMOR WA LO
 
 // Data utama
 let pelanggan = [];
 let riwayatTransaksi = [];
 let totalKeuntungan = 0;
+let totalModalBalik = 0;
 
 // ========== TELEGRAM ==========
 async function kirimTelegram(pesan) {
@@ -22,22 +24,16 @@ async function kirimTelegram(pesan) {
     } catch(e) {}
 }
 
-// ========== WHATSAPP (CallMeBot) ==========
-async function kirimWA(pesan) {
-    try {
-        const url = `https://api.callmebot.com/whatsapp.php?phone=${NOMOR_WA}&text=${encodeURIComponent(pesan)}&apikey=6719526`;
-        await fetch(url);
-    } catch(e) {}
-}
-
 // ========== LOAD & SAVE ==========
 function loadData() {
     const pl = localStorage.getItem('pelanggan');
     const rt = localStorage.getItem('riwayatTransaksi');
     const profit = localStorage.getItem('totalKeuntungan');
+    const modal = localStorage.getItem('totalModalBalik');
     if(pl) pelanggan = JSON.parse(pl);
     if(rt) riwayatTransaksi = JSON.parse(rt);
     if(profit) totalKeuntungan = parseInt(profit);
+    if(modal) totalModalBalik = parseInt(modal);
     cekResetHarian();
     renderSemua();
 }
@@ -46,6 +42,7 @@ function saveData() {
     localStorage.setItem('pelanggan', JSON.stringify(pelanggan));
     localStorage.setItem('riwayatTransaksi', JSON.stringify(riwayatTransaksi));
     localStorage.setItem('totalKeuntungan', totalKeuntungan);
+    localStorage.setItem('totalModalBalik', totalModalBalik);
 }
 
 function cekResetHarian() {
@@ -83,7 +80,6 @@ function tambahPelanggan(nama, pin, passwordKhusus) {
     initPelangganSelect();
     const pesan = `👤 PELANGGAN BARU!\nNama: ${nama}\nPIN: ${pin}\nPassword: ${passwordKhusus}`;
     kirimTelegram(pesan);
-    kirimWA(pesan);
 }
 
 function hapusPelanggan(id) {
@@ -108,7 +104,6 @@ function resetPelanggan(id) {
         const pesan = `🔄 ${pel.nama} direset oleh owner. Bisa ambil voucher lagi.`;
         alert(`✅ ${pel.nama} direset!`);
         kirimTelegram(pesan);
-        kirimWA(pesan);
     }
 }
 
@@ -131,9 +126,8 @@ function tandaiLunas(pelangganId) {
         renderAdminRiwayat();
         renderAdminStats();
         
-        const pesan = `${pel.nama} lunas! Total keuntungan: Rp${totalKeuntungan.toLocaleString()}`;
+        const pesan = `💰 ${pel.nama} lunas! Total keuntungan: Rp${totalKeuntungan.toLocaleString()}`;
         kirimTelegram(pesan);
-        kirimWA(pesan);
         alert(`✅ Lunas!`);
     }
 }
@@ -153,20 +147,18 @@ async function ambilVoucher(pelangganId) {
         password: pel.passwordKhusus,
         tanggalAmbil: waktuAmbil,
         sudahBayar: false,
-        nominal: HARGA_VOUCHER
+        nominal: HARGA_JUAL
     });
     
     pel.quotaHariIni = true;
     pel.passwordDiambil = pel.passwordKhusus;
     pel.lastAmbil = now.toISOString();
-    pel.utang += HARGA_VOUCHER;
-totalModalBalik += 3000;
-saveData();
+    pel.utang += HARGA_JUAL;
+    totalModalBalik += HARGA_BELI;
+    saveData();
     
-    const pesanTele = `🔔 ${pel.nama} ambil voucher ${pel.passwordKhusus}\n📅 ${waktuAmbil}\n💰 Utang: Rp${HARGA_VOUCHER.toLocaleString()}`;
-    const pesanWA = `🔔 ${pel.nama} ambil voucher ${pel.passwordKhusus} jam ${now.toLocaleTimeString('id-ID')}. Utang: Rp${HARGA_VOUCHER.toLocaleString()}`;
-    kirimTelegram(pesanTele);
-    kirimWA(pesanWA);
+    const pesan = `🔔 ${pel.nama} ambil voucher ${pel.passwordKhusus}\n📅 ${waktuAmbil}\n💰 Utang: Rp${HARGA_JUAL.toLocaleString()}`;
+    kirimTelegram(pesan);
     
     if(currentPelanggan && currentPelanggan.id === pelangganId) {
         renderPelangganDashboard(pel);
@@ -181,10 +173,11 @@ saveData();
 }
 
 function renderAdminStats() {
+    const totalUtang = pelanggan.reduce((s, p) => s + p.utang, 0);
     document.getElementById('statPelanggan') && (document.getElementById('statPelanggan').innerText = pelanggan.length);
     document.getElementById('statProfit') && (document.getElementById('statProfit').innerHTML = `Rp${totalKeuntungan.toLocaleString()}`);
-    const totalUtang = pelanggan.reduce((s, p) => s + p.utang, 0);
     document.getElementById('statUtang') && (document.getElementById('statUtang').innerHTML = `Rp${totalUtang.toLocaleString()}`);
+    document.getElementById('statModal') && (document.getElementById('statModal').innerHTML = `Rp${totalModalBalik.toLocaleString()}`);
 }
 
 function renderAdminPelanggan(filter = '') {
@@ -351,6 +344,7 @@ function resetAll() {
         pelanggan = [];
         riwayatTransaksi = [];
         totalKeuntungan = 0;
+        totalModalBalik = 0;
         saveData();
         location.reload();
     }
@@ -392,4 +386,3 @@ loadData();
 initPelangganSelect();
 setInterval(cekResetHarian, 60000);
 kirimTelegram("✅ WiFi Vault Dark Neon Aktif!");
-kirimWA("✅ WiFi Vault Dark Neon Aktif! Bot WA siap mengirim notifikasi.");

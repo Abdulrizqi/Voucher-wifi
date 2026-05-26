@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+    <title>Ambil Voucher • WiFi Vault</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <div class="bg-dark"></div>
+    
+    <div id="loginScreen" class="login-screen">
+        <div class="login-card glass">
+            <div class="neon-icon">🔐</div>
+            <h1>WiFi <span class="neon-text">Vault</span></h1>
+            <p class="sub">Ambil voucher WiFi 24 jam</p>
+            <select id="pelangganSelect" class="input-neon">
+                <option value="">-- Pilih Nama --</option>
+            </select>
+            <input type="password" id="pinInput" placeholder="PIN" class="input-neon" inputmode="numeric">
+            <button id="btnLogin" class="btn-neon-primary">MASUK</button>
+            <div class="info-text">PIN dari kertas yang dikasih Owner</div>
+        </div>
+    </div>
+
+    <div id="dashboard" class="dashboard" style="display: none;">
+        <div class="header">
+            <div>
+                <h1>📡 WiFi <span class="neon-text">Vault</span></h1>
+                <p id="namaUser" class="greeting">Halo, <strong></strong></p>
+            </div>
+            <button id="btnLogout" class="btn-neon-outline">🚪 Keluar</button>
+        </div>
+
+        <div id="statusCard" class="status-card glass">
+            <div class="status-icon" id="statusIcon">⏳</div>
+            <div class="status-text" id="statusText">Memuat...</div>
+        </div>
+
+        <div id="warningBayar" class="warning-banner neon-pink">⚠️ JANGAN LUPA BAYAR KE OWNER! ⚠️</div>
+
+        <div id="ambilSection" class="ambil-section glass">
+            <div class="stok-badge">📦 Stok tersisa: <strong id="stokCount">0</strong></div>
+            <div id="passwordList" class="password-grid">
+                <div class="loading">Memuat password...</div>
+            </div>
+        </div>
+
+        <div class="riwayat-section glass">
+            <h3>📜 Riwayat Ambilan</h3>
+            <div id="riwayatList" class="riwayat-list">
+                <div class="empty">Belum ada riwayat</div>
+            </div>
+        </div>
+    </div>
+
+    <script src="script.js"></script>
+</body>
+</html>

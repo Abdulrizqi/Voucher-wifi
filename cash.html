@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+    <title>Cash Voucher • WiFi Vault</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <div class="bg-dark"></div>
+
+    <div id="loginCash" class="login-screen">
+        <div class="login-card glass">
+            <div class="neon-icon">💰</div>
+            <h1>Cash <span class="neon-text">Voucher</span></h1>
+            <input type="password" id="pinCash" placeholder="PIN Owner" class="input-neon" inputmode="numeric">
+            <button id="btnLoginCash" class="btn-neon-primary">MASUK</button>
+            <div class="info-text">PIN: <span id="pinCashDisplay">2206</span></div>
+        </div>
+    </div>
+
+    <div id="cashPanel" class="admin-panel" style="display: none;">
+        <div class="header">
+            <h1>💰 Cash <span class="neon-text">Voucher</span></h1>
+            <button id="btnLogoutCash" class="btn-neon-outline">🚪 Keluar</button>
+        </div>
+
+        <div class="stats-grid">
+            <div class="stat-card glass"><div class="stat-icon">📦</div><div><span>Stok di Loker</span><strong id="statStokCash">0</strong></div></div>
+            <div class="stat-card glass"><div class="stat-icon">✅</div><div><span>Terjual</span><strong id="statTerjualCash">0</strong></div></div>
+            <div class="stat-card glass"><div class="stat-icon">💰</div><div><span>Keuntungan Cash</span><strong id="statProfitCash">Rp0</strong></div></div>
+        </div>
+
+        <div class="admin-card glass">
+            <div class="card-title">📦 Stok di Loker</div>
+            <div class="button-group">
+                <button id="btnTambahStokCash" class="btn-neon-success">+ Tambah Satu</button>
+                <button id="btnTambahBanyakCash" class="btn-neon-secondary">📋 Tambah Banyak</button>
+            </div>
+            <div id="stokCashList" class="stok-list">Loading...</div>
+        </div>
+
+        <div class="admin-card glass">
+            <div class="card-title">📜 Riwayat Penjualan Cash</div>
+            <input type="text" id="searchCash" placeholder="🔍 Cari password..." class="input-neon">
+            <div id="riwayatCashList" class="riwayat-list-admin">Loading...</div>
+            <button id="btnExportCash" class="btn-neon-export mt-2">📎 Export CSV</button>
+        </div>
+    </div>
+
+    <div id="modalStokCash" class="modal">
+        <div class="modal-card glass">
+            <div class="modal-header"><span>🔑 Tambah ke Loker</span><span class="close-cash">&times;</span></div>
+            <input type="text" id="passwordCashBaru" placeholder="Contoh: akj123" class="input-neon">
+            <button id="confirmStokCash" class="btn-neon-primary">Simpan</button>
+        </div>
+    </div>
+
+    <div id="modalBanyakCash" class="modal">
+        <div class="modal-card glass modal-wide">
+            <div class="modal-header"><span>📋 Tambah Banyak</span><span class="close-banyak-cash">&times;</span></div>
+            <textarea id="banyakCashText" rows="6" placeholder="Password satu per baris"></textarea>
+            <button id="confirmBanyakCash" class="btn-neon-primary">Tambahkan</button>
+        </div>
+    </div>
+
+    <div id="modalTerjual" class="modal">
+        <div class="modal-card glass">
+            <div class="modal-header"><span>💸 Tandai Terjual</span><span class="close-terjual">&times;</span></div>
+            <p id="terjualText" style="margin-bottom: 16px;">Tandai password ini sebagai terjual?</p>
+            <button id="confirmTerjual" class="btn-neon-primary">Ya, Terjual!</button>
+        </div>
+    </div>
+
+    <script src="script-cash.js"></script>
+</body>
+</html>

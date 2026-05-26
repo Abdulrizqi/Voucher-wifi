@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+    <title>Admin • WiFi Vault</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <div class="bg-dark"></div>
+
+    <div id="loginAdmin" class="login-screen">
+        <div class="login-card glass">
+            <div class="neon-icon">👑</div>
+            <h1>Owner <span class="neon-text">Panel</span></h1>
+            <input type="password" id="pinOwner" placeholder="PIN Owner" class="input-neon" inputmode="numeric">
+            <button id="btnLoginAdmin" class="btn-neon-primary">MASUK</button>
+            <div class="info-text">PIN: <span id="pinDisplay">2206</span></div>
+        </div>
+    </div>
+
+    <div id="adminPanel" class="admin-panel" style="display: none;">
+        <div class="header">
+            <h1>👑 Dashboard <span class="neon-text">Owner</span></h1>
+            <button id="btnLogoutAdmin" class="btn-neon-outline">🚪 Keluar</button>
+        </div>
+
+        <div class="stats-grid">
+            <div class="stat-card glass"><div class="stat-icon">👥</div><div><span>Total Pelanggan</span><strong id="statPelanggan">0</strong></div></div>
+            <div class="stat-card glass"><div class="stat-icon">💰</div><div><span>Keuntungan</span><strong id="statProfit">Rp0</strong></div></div>
+            <div class="stat-card glass"><div class="stat-icon">💸</div><div><span>Total Utang</span><strong id="statUtang">Rp0</strong></div></div>
+        </div>
+
+        <div class="admin-card glass">
+            <div class="card-title">👥 Manajemen Pelanggan</div>
+            <button id="btnTambahPelanggan" class="btn-neon-primary" style="margin-bottom: 16px;">+ Tambah Pelanggan Baru</button>
+            <input type="text" id="searchPelanggan" placeholder="🔍 Cari nama..." class="input-neon">
+            <div id="pelangganList" class="pelanggan-list">Loading...</div>
+        </div>
+
+        <div class="admin-card glass">
+            <div class="card-title">💵 Rekap Utang</div>
+            <div id="utangList" class="utang-list">Loading...</div>
+        </div>
+
+        <div class="admin-card glass">
+            <div class="card-title">📜 Riwayat Ambilan</div>
+            <input type="text" id="searchRiwayat" placeholder="🔍 Cari..." class="input-neon">
+            <div id="riwayatList" class="riwayat-list-admin">Loading...</div>
+            <button id="btnExport" class="btn-neon-export mt-2">📎 Export CSV</button>
+            <button id="btnResetAll" class="btn-neon-reset mt-2">⚠️ Reset Semua Data</button>
+        </div>
+    </div>
+
+    <div id="modalPelanggan" class="modal">
+        <div class="modal-card glass">
+            <div class="modal-header"><span>👤 Tambah Pelanggan</span><span class="close-modal">&times;</span></div>
+            <input type="text" id="namaBaru" placeholder="Nama" class="input-neon">
+            <input type="number" id="pinBaru" placeholder="PIN (4 digit)" class="input-neon" inputmode="numeric">
+            <input type="text" id="passwordKhusus" placeholder="Password WiFi Khusus" class="input-neon">
+            <button id="confirmPelanggan" class="btn-neon-primary">Simpan</button>
+        </div>
+    </div>
+
+    <script src="script.js"></script>
+</body>
+</html>

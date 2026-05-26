@@ -115,13 +115,23 @@ function resetPelanggan(id) {
 function tandaiLunas(pelangganId) {
     const pel = pelanggan.find(p => p.id === pelangganId);
     if(pel && pel.utang > 0) {
+        // Update semua transaksi pelanggan ini jadi lunas
+        for(let i = 0; i < riwayatTransaksi.length; i++) {
+            if(riwayatTransaksi[i].pelangganId === pelangganId && !riwayatTransaksi[i].sudahBayar) {
+                riwayatTransaksi[i].sudahBayar = true;
+            }
+        }
+        
         totalKeuntungan += pel.utang;
         pel.utang = 0;
+        
         saveData();
         renderAdminPelanggan();
         renderAdminUtang();
+        renderAdminRiwayat();
         renderAdminStats();
-        const pesan = `💰 ${pel.nama} lunas! Total keuntungan: Rp${totalKeuntungan.toLocaleString()}`;
+        
+        const pesan = `${pel.nama} lunas! Total keuntungan: Rp${totalKeuntungan.toLocaleString()}`;
         kirimTelegram(pesan);
         kirimWA(pesan);
         alert(`✅ Lunas!`);
